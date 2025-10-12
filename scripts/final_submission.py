@@ -52,9 +52,9 @@ YOU ARE READY TO SUBMIT! Here's what to do:
    - Submit: GitHub repository URL + PDF write-up
 
 4. PREPARE FOR DEMO (Oct 14-15):
-   - Practice: python predict_fixed.py
-   - Review: python practice_presentation_fixed.py
-   - Test: python test_trained_models.py
+    - Practice: python models/predictions/predict_demo.py --input data/processed/test_dataset.csv
+    - Review: python practice_presentation_fixed.py
+    - Test: python test_trained_models.py
 
 5. PRESENTATION DAY:
    - 10-minute presentation + demo

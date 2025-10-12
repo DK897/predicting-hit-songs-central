@@ -177,6 +177,5 @@ If you'd like, I can:
 Quick verification (what I checked while writing this README):
 - `requirements.txt`, `config/config.yaml`, `src/main.py`, `scripts/test_trained_models.py`, and `models/predictions/predict_demo.py`.
 
-Enjoy — tell me if you want this README trimmed, expanded, or converted into a project homepage `docs/README.md`.
 
 

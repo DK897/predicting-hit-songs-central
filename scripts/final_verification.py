@@ -48,7 +48,7 @@ def show_final_instructions():
     print("   - Save as: hit_song_prediction_writeup.pdf")
     print("3. 🎤 Practice Presentation:")
     print("   - Run: python scripts/practice_presentation_fixed.py")
-    print("   - Test demo: python scripts/predict_fixed.py")
+    print("   - Test demo: python models/predictions/predict_demo.py --input data/processed/test_dataset.csv")
     print("4. 📅 Submit Before: October 13, 2025 (11:59 PM)")
     print("5. 🎯 Live Demo: October 14-15, 2025")
 
