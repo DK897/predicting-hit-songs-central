@@ -113,10 +113,18 @@ def run_evaluation(models_dir: Path, output_dir: Path):
     md_path = output_dir / 'metrics_summary.md'
     summary_df.to_csv(csv_path, index=False)
 
-    # Write markdown table
+    # Write markdown table (use to_markdown if tabulate is available, otherwise write a simple table)
     with open(md_path, 'w') as f:
         f.write('# Metrics Summary\n\n')
-        f.write(summary_df.to_markdown(index=False))
+        try:
+            f.write(summary_df.to_markdown(index=False))
+        except Exception:
+            # Fallback: write a simple pipe-separated table
+            cols = summary_df.columns.tolist()
+            f.write('| ' + ' | '.join(cols) + ' |\n')
+            f.write('| ' + ' | '.join(['---'] * len(cols)) + ' |\n')
+            for _, row in summary_df.iterrows():
+                f.write('| ' + ' | '.join([str(row[c]) for c in cols]) + ' |\n')
         f.write('\n')
 
     # Create comparative plots using plotter
