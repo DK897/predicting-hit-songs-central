@@ -34,10 +34,10 @@ predicting-hit-songs-central/
 ├── 📁 data/ # Data storage
 ├── 📁 notebooks/ # Jupyter notebooks
 ├── 📁 src/ # Source code
-│ ├── data/ # Data loading
-│ ├── features/ # Feature engineering
-│ ├── models/ # Model training
-│ └── visualization/ # Plotting utilities
+│   ├── data/ # Data loading
+│   ├── features/ # Feature engineering
+│   ├── models/ # Model training
+│   └── visualization/ # Plotting utilities
 ├── 📁 models/ # Trained models
 ├── 📁 reports/ # Reports & visualizations
 ├── 📁 tests/ # Unit tests
@@ -65,20 +65,35 @@ source venv/bin/activate  # Windows: venv\Scripts\activate
 # Install dependencies
 pip install -r requirements.txt
 
-# Set Python path
+# (Optional) Set Python path so `src` is importable
 export PYTHONPATH="$PYTHONPATH:$(pwd)"
+```
 
-# Run complete pipeline
+### Usage
+Below are the most common commands. All scripts referenced exist in the repository root or the `scripts/` folder.
+
+Run the full pipeline (data -> features -> train -> reports):
+
+```bash
 python src/main.py
+```
 
-# Explore data
+Explore the data notebooks (run as scripts or open in Jupyter):
+
+```bash
 python notebooks/exploratory/01_data_exploration.py
-
-# Train models
 python notebooks/modeling/02_model_training.py
+```
 
-# Test models
-python test_trained_models.py
+Test trained models and produce sample predictions:
 
-# Make predictions
-python predict_fixed.py
+```bash
+python scripts/test_trained_models.py
+```
+
+Notes:
+- There is no top-level `predict_fixed.py` in the repository; prediction/testing utilities live under `scripts/` (e.g., `scripts/test_trained_models.py`).
+- Trained models are expected under `models/saved_models/` (the repository includes several pre-saved models in that folder).
+
+If you'd like a small demo prediction script at the repo root (for `python predict_fixed.py`), I can add one — say so and I'll create it.
+
