@@ -5,94 +5,178 @@
 [![Accuracy](https://img.shields.io/badge/accuracy-79.8%25-brightgreen.svg)](#-model-performance)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
-## 📋 Project Overview
+A compact, reproducible repository for predicting whether a song will be a commercial "hit" using audio features extracted from choruses. The project includes feature engineering, model training for several algorithms, evaluation utilities, visualizations, and demo scripts.
 
-This machine learning project predicts hit songs with **79.8% accuracy** by analyzing audio features from song choruses. The system identifies patterns in musical characteristics that contribute to commercial success, providing data-driven insights for the music industry.
+Key facts
+- Course: UE23CS352A Machine Learning (PES University)
+- Dataset: Spotify Hit Predictor (Kaggle)
+- Notable result: 79.8% accuracy (SVM reported in experiments)
 
-**Course**: UE23CS352A Machine Learning  
-**Institution**: PES University  
-**Duration**: 2 Weeks (Sep 29 - Oct 13, 2025)
+Table of contents
+- Project layout
+- Installation
+- Quick usage
+- Data, features, and configuration
+- Models and demos
+- Reproducing experiments
+- Troubleshooting
 
-**Dataset Source**: [Kaggle - Spotify Hit Predictor Dataset](https://www.kaggle.com/datasets/theoverman/the-spotify-hit-predictor-dataset)
-
-## 👥 Team Members
-
-- **B. GOUTHAM** - PES1UG23CS132
-- **DHARSHAN K** - PES1UG23CS184
-
-## 🏆 Key Achievements
-
-- **🎯 79.8% Accuracy** with Support Vector Machine
-- **📊 41,106 Songs** across 6 decades (1960s-2010s)
-- **🔧 66 Engineered Features** from audio characteristics
-- **🤖 6 ML Models** comprehensively evaluated
-- **📈 Business Insights** for music industry applications
-
-## 🏗️ Project Structure
+Project layout (top-level)
 
 predicting-hit-songs-central/
-├── 📁 data/ # Data storage
-├── 📁 notebooks/ # Jupyter notebooks
-├── 📁 src/ # Source code
-│   ├── data/ # Data loading
-│   ├── features/ # Feature engineering
-│   ├── models/ # Model training
-│   └── visualization/ # Plotting utilities
-├── 📁 models/ # Trained models
-├── 📁 reports/ # Reports & visualizations
-├── 📁 tests/ # Unit tests
-├── 📁 docs/ # Documentation
-├── 📄 requirements.txt # Dependencies
-└── 📄 README.md # This file
+├── data/ (raw, external, processed)
+├── notebooks/ (exploratory and modeling notebooks)
+├── src/ (source code: data, features, models, visualization)
+├── models/
+│   ├── saved_models/ (pretrained .pkl models)
+│   └── predictions/ (prediction outputs, demo script)
+├── reports/ (figures and final report)
+├── scripts/ (utility scripts used in demos and submission)
+├── requirements.txt
+├── config/config.yaml
+└── README.md
 
 
-## 🚀 Quick Start
+Installation
 
-### Prerequisites
-- Python 3.8+
-- Git
+1. Clone and create a virtual environment
 
-### Installation
 ```bash
-# Clone repository
-git clone https://github.com/your-username/predicting-hit-songs-central
+git clone https://github.com/DK897/predicting-hit-songs-central.git
 cd predicting-hit-songs-central
-
-# Create virtual environment
 python3 -m venv venv
-source venv/bin/activate  # Windows: venv\Scripts\activate
+source venv/bin/activate
+```
 
-# Install dependencies
+2. Install dependencies
+
+```bash
 pip install -r requirements.txt
+```
 
-# (Optional) Set Python path so `src` is importable
+3. (Optional) Make the `src` package importable from scripts
+
+```bash
 export PYTHONPATH="$PYTHONPATH:$(pwd)"
 ```
 
-### Usage
-Below are the most common commands. All scripts referenced exist in the repository root or the `scripts/` folder.
 
-Run the full pipeline (data -> features -> train -> reports):
+Quick usage
+
+- Run the full pipeline (load, feature-engineer, train, visualize):
 
 ```bash
 python src/main.py
 ```
 
-Explore the data notebooks (run as scripts or open in Jupyter):
-
-```bash
-python notebooks/exploratory/01_data_exploration.py
-python notebooks/modeling/02_model_training.py
-```
-
-Test trained models and produce sample predictions:
+- Run model evaluation and sample predictions (script):
 
 ```bash
 python scripts/test_trained_models.py
 ```
 
-Notes:
-- There is no top-level `predict_fixed.py` in the repository; prediction/testing utilities live under `scripts/` (e.g., `scripts/test_trained_models.py`).
-- Trained models are expected under `models/saved_models/` (the repository includes several pre-saved models in that folder).
+- Demo: run a lightweight prediction on a CSV or sample songs (writes CSV to `models/predictions/`):
+
+```bash
+# auto-selects models/saved_models/themodel.pkl -> svm.pkl -> first .pkl
+python models/predictions/predict_demo.py --input data/processed/test_dataset.csv
+
+# or explicitly pick a model
+python models/predictions/predict_demo.py --model models/saved_models/svm.pkl --input data/processed/test_dataset.csv
+```
+
+
+Data, features, and configuration
+
+- Data layout is defined under `data/`. Processed CSVs used for training/testing live in `data/processed/` (e.g. `train_dataset.csv`, `test_dataset.csv`).
+- Feature engineering is implemented in `src/features/feature_engineer.py`. The active audio features and excluded columns are defined in `config/config.yaml`.
+
+Key config excerpts (see `config/config.yaml`):
+
+```yaml
+data:
+	raw_path: "data/raw"
+	processed_path: "data/processed"
+
+features:
+	audio_features:
+		- danceability
+		- energy
+		- valence
+		- acousticness
+		- instrumentalness
+		- liveness
+		- speechiness
+		- tempo
+
+models:
+	svm:
+		probability: true
+		random_state: 42
+	random_forest:
+		n_estimators: 100
+```
+
+
+Models and demos
+
+- Pretrained models (for demo and evaluation) are in `models/saved_models/` and include:
+	- `svm.pkl`, `random_forest.pkl`, `xgboost.pkl`, `neural_network.pkl`, `gradient_boosting.pkl`, `logistic_regression.pkl`
+- Demo script: `models/predictions/predict_demo.py` — small CLI that loads a model, runs feature engineering (via `FeatureEngineer`), and writes predictions to `models/predictions/predictions_demo.csv`.
+- Evaluation script: `scripts/test_trained_models.py` — loads all saved models, runs them on the test split, prints metrics, and generates diagnostic figures under `reports/figures/`.
+
+
+Reproducing experiments
+
+1. Prepare data
+	 - Put raw CSVs into `data/raw/` and processed CSVs under `data/processed/`.
+	 - If you have the original Kaggle dataset, place it under `data/raw/` and run the preprocessing steps in `src/data/data_loader.py` or use the notebooks.
+
+2. Run the pipeline
+
+```bash
+python src/main.py
+```
+
+3. Validate models & view reports
+
+```bash
+python scripts/test_trained_models.py
+# check reports/figures/ for confusion matrices, ROC curves, feature importance
+```
+
+
+Troubleshooting & notes
+
+- If `ModuleNotFoundError: No module named 'src'` appears when running scripts directly, set PYTHONPATH as above or run scripts through the package entrypoints (e.g., `python -m src.main` after setting PYTHONPATH or installing the package).
+- `predict_demo.py` searches for `models/saved_models/themodel.pkl` first, then `svm.pkl`, then the first `.pkl` found.
+- Large model files (e.g. `random_forest.pkl`, `neural_network.pkl`) are included under `models/saved_models/` and may increase repo size.
+
+
+Development and testing
+
+- Unit tests live under `tests/`. Run the basic tests with:
+
+```bash
+pytest -q
+```
+
+Contact & license
+
+- Authors: B. GOUTHAM (PES1UG23CS132) and DHARSHAN K (PES1UG23CS184)
+- License: MIT (see `LICENSE`)
+
+
+If you'd like, I can:
+- Add a short `CONTRIBUTING.md` and `USAGE.md` for students and reviewers.
+- Create an installable package (setup.py is present) so you can `pip install -e .` and run entrypoints.
+- Add a small top-level `predict_fixed.py` CLI wrapper that calls `models/predictions/predict_demo.py` for even simpler demos.
+
+----
+
+Quick verification (what I checked while writing this README):
+- `requirements.txt`, `config/config.yaml`, `src/main.py`, `scripts/test_trained_models.py`, and `models/predictions/predict_demo.py`.
+
+Enjoy — tell me if you want this README trimmed, expanded, or converted into a project homepage `docs/README.md`.
 
 
