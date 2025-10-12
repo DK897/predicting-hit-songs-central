@@ -243,8 +243,8 @@ def main():
         analyze_feature_importance(models, feature_columns)
         
         # Make predictions on sample data
-        make_predictions_on_new_data(models, feature_engineer)
-        
+        make_predictions_on_new_data(models, feature_engineer, feature_columns)
+
         print(f"\n✅ Model testing completed!")
         print(f"📊 Check 'reports/figures/' for detailed analysis charts")
     else:
