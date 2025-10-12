@@ -1,0 +1,11 @@
+TITLE: Problem Statement & Motivation
+
+
+PROBLEM:
+Can we predict hit songs based solely on audio features?
+
+MOTIVATION:
+- Music industry invests billions in song production
+- Traditional A&R is subjective and risky
+- Data-driven approach can reduce uncertainty
+- Understand what makes songs popular

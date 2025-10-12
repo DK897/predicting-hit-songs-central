@@ -1,0 +1,15 @@
+TITLE: Feature Engineering
+
+
+FEATURES CREATED:
+
+BASE FEATURES (14):
+- danceability, energy, valence, tempo
+- acousticness, instrumentalness, loudness
+- speechiness, liveness, duration, etc.
+
+ENGINEERED FEATURES (52):
+- Feature interactions and ratios
+- Temporal characteristics  
+- Decade encodings
+- Composite features

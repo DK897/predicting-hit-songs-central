@@ -1,0 +1,12 @@
+TITLE: Live Demonstration
+
+
+PREDICTION SYSTEM WORKING:
+
+Sample Song Analysis:
+- "Dance Pop" -> 87% HIT probability ✅
+- "Acoustic Ballad" -> 23% HIT probability ❌
+
+REAL-TIME PREDICTION:
+Input audio features -> Instant hit prediction
+With confidence scores and feature insights
