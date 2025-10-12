@@ -1,0 +1,14 @@
+TITLE: Key Findings
+
+
+WHAT MAKES A HIT SONG? 🔍
+
+TOP 5 IMPORTANT FEATURES:
+1. Instrumentalness-Valence Ratio (31.1%)
+2. Instrumentalness-Danceability Ratio (13.2%)
+3. Acousticness (6.9%)
+4. Energy-Danceability Interaction (4.6%)
+5. Danceability (3.8%)
+
+INSIGHT:
+Instrumental arrangement quality is most important!

@@ -1,0 +1,11 @@
+TITLE: Hit Song Prediction Using Machine Learning
+
+
+🎵 UE23CS352A Machine Learning Mini-Project
+
+TEAM MEMBERS:
+- [Your Name] - [Your SRN]
+- [Partner's Name] - [Partner's SRN]
+
+PROJECT OVERVIEW:
+Predicting hit songs using audio features with 79.8% accuracy

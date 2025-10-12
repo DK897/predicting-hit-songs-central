@@ -1,0 +1,13 @@
+TITLE: Dataset & Methodology
+
+
+DATASET:
+- 41,106 songs from 1960s-2010s
+- Billboard charts + audio features
+- Balanced: 50% hits, 50% non-hits
+
+METHODOLOGY:
+1. Data Collection & Preprocessing
+2. Feature Engineering (66 features)
+3. Model Training (6 algorithms)
+4. Evaluation & Visualization
