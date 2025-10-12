@@ -95,5 +95,4 @@ Notes:
 - There is no top-level `predict_fixed.py` in the repository; prediction/testing utilities live under `scripts/` (e.g., `scripts/test_trained_models.py`).
 - Trained models are expected under `models/saved_models/` (the repository includes several pre-saved models in that folder).
 
-If you'd like a small demo prediction script at the repo root (for `python predict_fixed.py`), I can add one — say so and I'll create it.
 
