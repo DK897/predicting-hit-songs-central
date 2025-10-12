@@ -1,0 +1,62 @@
+# Hit Song Prediction Project Configuration
+
+data:
+  raw_path: "data/raw"
+  processed_path: "data/processed"
+  external_path: "data/external"
+
+model:
+  test_size: 0.25
+  random_state: 42
+  cv_folds: 5
+
+features:
+  audio_features:
+    - "danceability"
+    - "energy" 
+    - "valence"
+    - "acousticness"
+    - "instrumentalness"
+    - "liveness"
+    - "speechiness"
+    - "tempo"
+  
+  exclude_columns:
+    - "target"
+    - "decade"
+    - "uri"
+    - "track"
+    - "artist"
+    - "id"
+
+models:
+  logistic_regression:
+    max_iter: 1000
+    random_state: 42
+  
+  random_forest:
+    n_estimators: 100
+    random_state: 42
+  
+  gradient_boosting:
+    n_estimators: 100
+    random_state: 42
+  
+  svm:
+    probability: true
+    random_state: 42
+  
+  neural_network:
+    hidden_layer_sizes: [100, 50]
+    max_iter: 1000
+    random_state: 42
+  
+  xgboost:
+    n_estimators: 100
+    random_state: 42
+    eval_metric: "logloss"
+
+visualization:
+  figure_format: "png"
+  dpi: 300
+  style: "seaborn-v0_8"
