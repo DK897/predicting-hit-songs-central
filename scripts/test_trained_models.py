@@ -11,9 +11,10 @@ from sklearn.metrics import classification_report, confusion_matrix, accuracy_sc
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-# Add project root to path
-project_root = Path(__file__).parent
-sys.path.insert(0, str(project_root))
+# Ensure repository root is on sys.path so we can import `src` (script may be run from scripts/)
+repo_root = Path(__file__).resolve().parents[1]
+if str(repo_root) not in sys.path:
+    sys.path.insert(0, str(repo_root))
 
 from src.data.data_loader import DataLoader
 from src.features.feature_engineer import FeatureEngineer
@@ -92,7 +93,7 @@ def test_models_on_data(models, X_test, y_test, feature_columns):
     
     return results
 
-def make_predictions_on_new_data(models, feature_engineer):
+def make_predictions_on_new_data(models, feature_engineer, reference_feature_columns):
     """Make predictions on new sample data."""
     print(f"\n🎵 Making Predictions on Sample Songs")
     print("=" * 50)
@@ -117,12 +118,10 @@ def make_predictions_on_new_data(models, feature_engineer):
     
     # Apply feature engineering
     sample_features = feature_engineer.create_features(sample_df)
-    
-    # Get feature columns (exclude non-feature columns)
-    exclude_cols = ['target', 'decade', 'uri', 'track', 'artist', 'id']
-    feature_columns = [col for col in sample_features.columns if col not in exclude_cols]
-    
-    X_sample = sample_features[feature_columns]
+
+    # Ensure the sample features have the same columns that models were trained on
+    # Missing columns (e.g., one-hot decade columns) will be filled with zeros
+    X_sample = sample_features.reindex(columns=reference_feature_columns, fill_value=0)
     
     print("Sample Song 1 (High energy, danceable):")
     for model_name, model in models.items():
@@ -131,9 +130,11 @@ def make_predictions_on_new_data(models, feature_engineer):
                 from sklearn.preprocessing import StandardScaler
                 scaler = StandardScaler()
                 X_scaled = scaler.fit_transform(X_sample)
-                prediction = model.predict(X_scaled.iloc[[0]].values)[0]
-                probability = model.predict_proba(X_scaled.iloc[[0]].values)[0, 1] if hasattr(model, "predict_proba") else None
+                # X_scaled is a numpy array; index with [[]]
+                prediction = model.predict(X_scaled[[0]])[0]
+                probability = model.predict_proba(X_scaled[[0]])[0, 1] if hasattr(model, "predict_proba") else None
             else:
+                # For tree-based models, pass a DataFrame row
                 prediction = model.predict(X_sample.iloc[[0]])[0]
                 probability = model.predict_proba(X_sample.iloc[[0]])[0, 1] if hasattr(model, "predict_proba") else None
             
@@ -151,8 +152,8 @@ def make_predictions_on_new_data(models, feature_engineer):
                 from sklearn.preprocessing import StandardScaler
                 scaler = StandardScaler()
                 X_scaled = scaler.fit_transform(X_sample)
-                prediction = model.predict(X_scaled.iloc[[1]].values)[0]
-                probability = model.predict_proba(X_scaled.iloc[[1]].values)[0, 1] if hasattr(model, "predict_proba") else None
+                prediction = model.predict(X_scaled[[1]])[0]
+                probability = model.predict_proba(X_scaled[[1]])[0, 1] if hasattr(model, "predict_proba") else None
             else:
                 prediction = model.predict(X_sample.iloc[[1]])[0]
                 probability = model.predict_proba(X_sample.iloc[[1]])[0, 1] if hasattr(model, "predict_proba") else None
