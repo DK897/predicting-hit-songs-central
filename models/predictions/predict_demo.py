@@ -17,7 +17,8 @@ import joblib
 import pandas as pd
 
 # Add project root to path so we can import src modules
-repo_root = Path(__file__).resolve().parents[3]
+# File is at models/predictions/, so parents[2] points to the repository root
+repo_root = Path(__file__).resolve().parents[2]
 if str(repo_root) not in sys.path:
     sys.path.insert(0, str(repo_root))
 
@@ -25,6 +26,14 @@ from src.features.feature_engineer import FeatureEngineer
 
 
 def find_first_model(models_dir: Path):
+    # Prefer a file named 'themodel.pkl' if present (user requested), then 'svm.pkl',
+    # otherwise return the first available .pkl
+    preferred = models_dir / "themodel.pkl"
+    if preferred.exists():
+        return preferred
+    svm = models_dir / "svm.pkl"
+    if svm.exists():
+        return svm
     models = list(models_dir.glob("*.pkl"))
     return models[0] if models else None
 
