@@ -2,6 +2,10 @@
 __pycache__/
 *.py[cod]
 *$py.class
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
 *.so
 .Python
 build/
@@ -42,6 +46,9 @@ env/
 *.pickle
 *.h5
 *.model
+
+# Allow small processed datasets kept for reproducibility
+!data/processed/*.csv
 
 # Models
 models/saved_models/
